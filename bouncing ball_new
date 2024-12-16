@@ -1,0 +1,51 @@
+#include <graphics.h>
+#include <conio.h>
+
+int main() {
+    int gd = DETECT, gm;    // Automatically detect graphics driver
+    int x = 20, y = 200;    // Ball's initial position
+    int flag = 0;           // Direction flag: 0 = down, 1 = up
+    int uplimit = 250;      // Upper limit for the ball's movement
+    int ball_radius = 15;   // Radius of the ball
+
+    // Initialize the graphics mode
+    initgraph(&gd, &gm, "C:\\TURBOC3\\BGI");
+
+    // Main loop for the animation
+    while (!kbhit()) { // Exit when a key is pressed
+        // Draw the ground line
+        setcolor(4);
+        line(0, 400, getmaxx(), 400);
+
+        // Ball movement logic
+        if (flag == 0) { // Ball is moving down
+            y += 2; // Move down
+            x += 1; // Move right
+            if (y >= 385) { // If ball hits the ground
+                flag = 1; // Change direction to up
+            }
+        } else if (flag == 1) { // Ball is moving up
+            y -= 2; // Move up
+            x += 2; // Move right
+            if (y <= uplimit) { // If ball reaches the upper limit
+                flag = 0;      // Change direction to down
+                uplimit += 20; // Increase the upper limit
+            }
+        }
+
+        // Draw the ball
+        setcolor(15);
+        setfillstyle(SOLID_FILL, 15);
+        fillellipse(x, y, ball_radius, ball_radius);
+
+        delay(15); // Small delay for smooth animation
+
+        // Erase the previous ball by drawing a black circle
+        setcolor(0);
+        setfillstyle(SOLID_FILL, 0);
+        fillellipse(x, y, ball_radius, ball_radius);
+    }
+
+    closegraph(); // Close the graphics mode
+    return 0;
+}

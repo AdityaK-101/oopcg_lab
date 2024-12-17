@@ -1,0 +1,139 @@
+/******************************************************************************
+Write C++ program using STL for sorting and searching user defined records such as
+Item records (Item code, name, cost, quantity etc) using vector container.
+
+*******************************************************************************/
+
+#include <iostream>
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+class item 
+{
+    public:
+    
+        char name[10];
+        int code,cost,quantity;
+        
+        //use while searching an item in our container
+        bool operator ==(const item &i1){
+            if(code==i1.code){
+                return 1;
+            }
+            else{
+                return 0;
+            }
+        }
+        
+        bool operator <(const item &i2){
+            if(cost<i2.cost){
+                return 1;
+            }
+            else{
+                return 0;
+            }
+        }
+        
+};
+
+vector<item> o1;
+
+void insert()
+{
+    item i1;
+    cout<<"Enter name of the item:";
+    cin>>i1.name;
+    cout<<"Enter item code:";
+    cin>>i1.code;
+    cout<<"Enter item cost:";
+    cin>>i1.cost;
+    cout<<"Enter quantity:";
+    cin>>i1.quantity;
+    o1.push_back(i1);
+}
+
+void print(item &i1)
+{
+    cout<<"--------------------------"<<endl;
+    cout<<"NAME:          "<<i1.name<<endl;
+    cout<<"CODE:          "<<i1.code<<endl;
+    cout<<"COST:          "<<i1.cost<<endl;
+    cout<<"QUANTITY:      "<<i1.quantity<<endl;
+    cout<<"--------------------------"<<endl;
+}
+
+void display()
+{
+    for_each(o1.begin(),o1.end(),print);
+}
+
+bool compare(const item& obj1,const item& obj2)
+{
+    return obj1.cost<obj2.cost;
+}
+
+void search(){
+    item i1;
+    vector<item>::iterator p;
+    cout<<"Enter item code to be searched:";
+    cin>>i1.code;
+    p=find(o1.begin(),o1.end(),i1);
+    if(p==o1.end()){
+        cout<<"Element not found"<<endl;
+    }
+    else{
+        cout<<"Element found"<<endl;
+    }
+}
+
+void del(){
+    item i1;
+    vector<item>::iterator p;
+    cout<<"Enter item code to be deleted:";
+    cin>>i1.code;
+    p=find(o1.begin(),o1.end(),i1);
+    if(p==o1.end()){
+        cout<<"Element not found"<<endl;
+    }
+    else{
+        o1.erase(p);
+        cout<<"Element deleted."<<endl;
+    }
+}
+
+int main()
+{
+    cout<<"start of the code"<<endl;
+    int ch=0;
+    while(ch!=7){
+        cout<<"MENU:-\n1. Add item.\n2. Display items.\n3. Search for an item\n4. Sort the items\n5. Delete an item\n6. EXIT\nYour choice=";
+        cin>>ch;
+        
+        if(ch==1){
+            insert();
+        }
+        else if(ch==2){
+            display();
+        }
+        else if(ch==3){
+            search();
+        }
+        else if(ch==4){
+            sort(o1.begin(),o1.end(),compare);
+            display();
+        }
+        else if(ch==5){
+            del();
+        }
+        else if(ch==6){
+            exit(0);
+        }
+        else{
+            cout<<"Enter valid option."<<endl;
+        }
+        
+    }
+
+    return 0;
+}

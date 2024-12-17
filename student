@@ -1,0 +1,150 @@
+#include <iostream>
+#include <string>
+#include <exception>
+using namespace std;
+
+class Student {
+private:
+    string name;
+    int rollNumber;
+    string studentClass;
+    char division;
+    string dateOfBirth;
+    string bloodGroup;
+    string contactAddress;
+    string telephoneNumber;
+    string drivingLicense;
+    static int studentCount; // Static variable to count students
+
+public:
+    // Default Constructor
+    Student() {
+        name = "Unknown";
+        rollNumber = 0;
+        studentClass = "None";
+        division = '-';
+        dateOfBirth = "00-00-0000";
+        bloodGroup = "Unknown";
+        contactAddress = "Unknown";
+        telephoneNumber = "0000000000";
+        drivingLicense = "Unknown";
+        studentCount++;
+    }
+
+    // Parameterized Constructor
+    Student(string name, int roll, string sClass, char div, string dob,
+            string blood, string address, string phone, string license)
+    {
+        this->name = name;
+        this->rollNumber = roll;
+        this->studentClass = sClass;
+        this->division = div;
+        this->dateOfBirth = dob;
+        this->bloodGroup = blood;
+        this->contactAddress = address;
+        
+        // Exception handling for invalid phone numbers
+        try {
+            if (phone.length() != 10)
+                throw invalid_argument("Invalid telephone number length.");
+            this->telephoneNumber = phone;
+        } catch (exception &e) {
+            cout << "Error: " << e.what() << ". Setting default number.\n";
+            this->telephoneNumber = "0000000000";
+        }
+
+        this->drivingLicense = license;
+        studentCount++;
+    }
+
+    // Copy Constructor
+    Student(const Student &obj) {
+        this->name = obj.name;
+        this->rollNumber = obj.rollNumber;
+        this->studentClass = obj.studentClass;
+        this->division = obj.division;
+        this->dateOfBirth = obj.dateOfBirth;
+        this->bloodGroup = obj.bloodGroup;
+        this->contactAddress = obj.contactAddress;
+        this->telephoneNumber = obj.telephoneNumber;
+        this->drivingLicense = obj.drivingLicense;
+        studentCount++;
+    }
+
+    // Destructor
+    ~Student() {
+        cout << "Destructor called for " << name << endl;
+        studentCount--;
+    }
+
+    // Inline Function for displaying basic details
+    inline void displayBasicInfo() {
+        cout << "Name: " << name << ", Roll No: " << rollNumber << endl;
+    }
+
+    // Member function to display all details
+    void displayFullInfo() {
+        cout << "\n--- Student Details ---\n";
+        cout << "Name: " << name << "\nRoll Number: " << rollNumber;
+        cout << "\nClass: " << studentClass << "\nDivision: " << division;
+        cout << "\nDate of Birth: " << dateOfBirth;
+        cout << "\nBlood Group: " << bloodGroup;
+        cout << "\nContact Address: " << contactAddress;
+        cout << "\nTelephone Number: " << telephoneNumber;
+        cout << "\nDriving License: " << drivingLicense << endl;
+    }
+
+    // Static member function
+    static void displayStudentCount() {
+        cout << "\nTotal Students: " << studentCount << endl;
+    }
+
+    // Friend Class
+    friend class Helper;
+};
+
+// Initialize static member
+int Student::studentCount = 0;
+
+// Friend Class to demonstrate access
+class Helper {
+public:
+    void showStudentName(Student &s) {
+        cout << "Helper Accessing Name: " << s.name << endl;
+    }
+};
+
+int main() {
+    // Dynamic memory allocation
+    Student *s1 = new Student("John Doe", 101, "10th", 'A', "01-01-2005", "B+",
+                              "123 Main St", "9876543210", "DL12345");
+
+    Student *s2 = new Student("Jane Smith", 102, "12th", 'B', "05-05-2004", "A+",
+                              "456 Elm St", "12345", "DL67890"); // Invalid phone
+
+    s1->displayBasicInfo();
+    s1->displayFullInfo();
+
+    s2->displayBasicInfo();
+    s2->displayFullInfo();
+
+    // Using copy constructor
+    Student s3 = *s1;
+    s3.displayBasicInfo();
+
+    // Friend class demonstration
+    Helper h;
+    h.showStudentName(*s2);
+
+    // Static function call
+    Student::displayStudentCount();
+
+    // Deallocate memory
+    delete s1;
+    delete s2;
+
+    // Display student count after destruction
+    Student::displayStudentCount();
+
+    return 0;
+}

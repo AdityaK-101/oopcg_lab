@@ -1,0 +1,93 @@
+/******************************************************************************
+Write a C++ program that creates an output file, writes information to it, closes the file,
+open it again as an input file and read the information from the file.
+
+*******************************************************************************/
+
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+class student
+{
+    string name,dob,year,division;
+    int code;
+    fstream f;
+    string line;
+    
+    public:
+        
+        void admit(){
+            f.open("student.txt",ios::app);
+            if(!f){
+                cout<<"Unable to access file."<<endl;
+            }
+            else{
+                cout<<"Enter student information."<<endl;
+                cout<<"Enter name of the student:";
+                cin.ignore();
+                getline(cin,name);
+                cout<<"Enter student code:";
+                cin>>code;
+                cout<<"Enter year[FE/SE/TE/BE]:";
+                cin>>year;
+                cout<<"Enter division[A/B/C/D]:";
+                cin>>division;
+                cout<<"Enter student Date of birth[DD/MM/YYYY]:";
+                cin>>dob;
+            
+                //add data to file
+                f<<"-------------------INFO------------------"<<endl;
+                f<<"NAME:                         "<<name<<endl;
+                f<<"CODE:                         "<<code<<endl;
+                f<<"YEAR:                         "<<year<<endl;
+                f<<"DIVISION:                     "<<division<<endl;
+                f<<"DATE OF BIRTH:                "<<dob<<endl;
+                f<<"-----------------------------------------"<<endl;
+                
+                f.close();
+            }
+        }
+        
+        void show(){
+            f.open("student.txt",ios::in);
+            if(!f){
+                cout<<"File not opened."<<endl;
+            }
+            else{
+                while(getline(f,line)){
+                    cout<<line<<endl;
+                }
+                cout<<endl;
+            }
+        }
+        
+};
+
+
+int main()
+{
+    cout<<"Start of the code"<<endl;
+    int ch=0;
+    student s;
+    while(ch!=3){
+        cout<<"MENU:-\n1. Add data to file.\n2. Show data.\n3. EXIT\nYour choice=";
+        cin>>ch;
+        
+        if(ch==1){
+            s.admit();
+        }
+        else if(ch==2){
+            s.show();
+        }
+        else if(ch==3){
+            exit(0);
+        }
+        else{
+            cout<<"Enter valid option"<<endl;
+        }
+    }
+
+    return 0;
+}

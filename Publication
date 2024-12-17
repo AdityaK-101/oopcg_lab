@@ -1,0 +1,98 @@
+/******************************************************************************
+
+Implement a class Complex which represents the Complex Number data type. Implement
+the following
+1. Constructor (including a default constructor which createsthe complex number 0+0i).
+2. Overload operator+ to add two complex numbers.
+3. Overload operator* to multiply two complex numbers.
+4. Overload operators << and >> to print and readComplex Numbers.
+
+*******************************************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+class complex
+{
+    float real,imag;
+    
+    public:
+        //constructor to initialize the values to 0
+        complex(){
+            real=imag=0;
+        }
+        
+        //to set the data from user input
+        void set_data(){
+            cout<<"Enter real part:";
+            cin>>real;
+            cout<<"Enter imaginary part:";
+            cin>>imag;
+        }
+        
+        //to display the data
+        void get_data(){
+            cout<<"Complex number:"<<real<<"+"<<imag<<"i"<<endl;
+        }
+        
+        //operator function to overload the '+' operator
+        complex operator +(const complex &obj1){
+            complex temp;
+            temp.real=real+obj1.real;
+            temp.imag=imag+obj1.imag;
+            return temp;
+        }
+        
+        //operator function to overload the '*' operator
+        complex operator *(const complex &obj2){
+            complex temp;
+            temp.real=(real*obj2.real)-(imag*obj2.imag);
+            temp.imag=(real*obj2.imag)+(imag*obj2.real);
+            return temp;
+        }
+        
+        //operator function to overload << operator
+        friend ostream& operator <<(ostream& output, complex& obj){
+            output<<obj.real<<"+"<<obj.imag<<"i"<<endl;
+            return output;
+        }
+        
+        friend istream& operator >>(istream& input, complex& obj){
+            input>>obj.real>>obj.imag;
+            return input;
+        }
+        
+        //to print the addtion of two complex Numbers
+        void addition(){
+            cout<<real<<"+"<<imag<<"i"<<endl;
+        }
+        
+        void multiplication(){
+            cout<<real<<"+"<<imag<<"i"<<endl;
+        }
+};
+
+int main()
+{
+    cout<<"Start of the code"<<endl;
+    complex c1,c2,res1,res2;
+    cout<<"Enter first complex number."<<endl;
+    c1.set_data();
+    cout<<"Entered complex number :";
+    c1.get_data();
+    cout<<"Enter second complex number:"<<endl;
+    c2.set_data();
+    cout<<"Entered complex number:";
+    c2.get_data();
+    
+    cout<<"Addition of two complex numbers:-"<<endl;
+    res1=c1+c2;
+    res1.addition();
+    
+    cout<<"Multiplication of two complex number:-"<<endl;
+    res2=c1*c2;
+    res2.multiplication();
+
+    return 0;
+}

@@ -1,0 +1,60 @@
+#include <iostream>
+#include <map>
+#include <string>
+using namespace std;
+
+int main() {
+    // Declare a map to store state names as keys and their populations as values
+    map<string, long> state_population;
+
+    // Populate the map with some initial data
+    state_population["Maharashtra"] = 123144223;
+    state_population["Uttar Pradesh"] = 241066874;
+    state_population["Tamil Nadu"] = 72147030;
+    state_population["Kerala"] = 35699443;
+    state_population["Gujarat"] = 70456885;
+
+    int choice = 0;
+    while (choice != 3) {
+        cout << "Menu:\n";
+        cout << "1. Search for a state's population\n";
+        cout << "2. Add/Update a state's population\n";
+        cout << "3. Exit\n";
+        cout << "Your choice: ";
+        cin >> choice;
+
+        if (choice == 1) {
+            // Search for a state's population
+            string state;
+            cout << "Enter the name of the state: ";
+            cin.ignore();
+            getline(cin, state);
+
+            auto it = state_population.find(state);
+            if (it != state_population.end()) {
+                cout << "Population of " << state << ": " << it->second << endl;
+            } else {
+                cout << "State not found in the database." << endl;
+            }
+        } else if (choice == 2) {
+            // Add or update a state's population
+            string state;
+            long population;
+            cout << "Enter the name of the state: ";
+            cin.ignore();
+            getline(cin, state);
+            cout << "Enter the population of the state: ";
+            cin >> population;
+
+            state_population[state] = population;
+            cout << "State population updated successfully." << endl;
+        } else if (choice == 3) {
+            cout << "Exiting the program." << endl;
+            break;
+        } else {
+            cout << "Invalid choice. Please try again." << endl;
+        }
+    }
+
+    return 0;
+}
